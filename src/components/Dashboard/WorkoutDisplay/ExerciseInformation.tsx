@@ -80,7 +80,7 @@ export default function ExerciseInformation({
 			</div>
 			<div className="text-2xl md:text-lg flex flex-col select-text">
 				<span className="font-black">INSTRUCTIONS</span>
-				{chosenExercise.instructions}
+				{chosenExercise.notes}
 			</div>
 			<div className="text-2xl md:text-lg min-h-0">{renderSets()}</div>
 		</div>

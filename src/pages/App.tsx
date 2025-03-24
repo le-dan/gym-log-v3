@@ -1,11 +1,6 @@
 import { Route } from "react-router";
 import { useState } from "react";
-import {
-	createBrowserRouter,
-	createRoutesFromElements,
-	Navigate,
-	RouterProvider,
-} from "react-router";
+import { createBrowserRouter, createRoutesFromElements, Navigate, RouterProvider } from "react-router";
 import WorkoutComplete from "../components/Dashboard/WorkoutComplete";
 import WorkoutDisplay from "../components/Dashboard/WorkoutDisplay";
 import WorkoutGrid from "../components/Dashboard/WorkoutGrid";
@@ -27,34 +22,15 @@ function App() {
 			<Route element={<Main />}>
 				<Route path="/" element={<Navigate replace to="dashboard" />} />
 				<Route path="dashboard" element={<Dashboard />}>
-					<Route
-						element={
-							<WorkoutGrid setChosenWorkout={setChosenWorkout} />
-						}
-						index
-					/>
-					<Route
-						path=":workout/*"
-						element={
-							<WorkoutDisplay
-								workout={chosenWorkout}
-								setChosenWorkout={setChosenWorkout}
-							/>
-						}
-					/>
-					<Route
-						path="complete"
-						element={<WorkoutComplete workout={chosenWorkout} />}
-					/>
+					<Route element={<WorkoutGrid setChosenWorkout={setChosenWorkout} />} index />
+					<Route path=":workout/*" element={<WorkoutDisplay workout={chosenWorkout} setChosenWorkout={setChosenWorkout} />} />
+					<Route path="complete" element={<WorkoutComplete workout={chosenWorkout} />} />
 				</Route>
 				<Route path="profile" element={<Profile />} />
 				<Route path="workout" element={<Workout />} />
 				<Route path="workout/create" element={<CreateWorkout />} />
 				<Route path="history" element={<History />} />
-				<Route
-					path="history/:completionDate"
-					element={<WorkoutHistoryInfo />}
-				/>
+				<Route path="history/:completionDate" element={<WorkoutHistoryInfo />} />
 				<Route path="help" element={<Help />} />
 			</Route>
 		)

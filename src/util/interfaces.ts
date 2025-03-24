@@ -22,7 +22,7 @@ export interface Exercise {
 	reps: number;
 	sets: number;
 	musclesWorked: Muscle[];
-	instructions: string;
+	notes: string;
 	setsCompleted: number;
 }
 

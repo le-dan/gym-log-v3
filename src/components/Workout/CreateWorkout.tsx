@@ -6,6 +6,7 @@ import Select from "@mui/material/Select";
 import { Muscle } from "../../util/interfaces";
 import { MenuItem, Modal } from "@mui/material";
 import ExerciseAccordion from "./ExerciseAccordion";
+import { motion } from "motion/react";
 
 export default function CreateWorkout() {
 	const styles = {
@@ -28,7 +29,7 @@ export default function CreateWorkout() {
 	const [sets, setSets] = useState(0);
 	const [reps, setReps] = useState(0);
 	const [muscles, setMuscles] = useState<Muscle[]>([]);
-	const [instructions, setInstructions] = useState("");
+	const [notes, setNotes] = useState("");
 
 	const [exercises, setExercises] = useState<Exercise[]>([]);
 	const isActive = useMemo(() => (exercises.length > 0 || workoutName.length > 0) && !created, [exercises, workoutName, created]);
@@ -67,7 +68,7 @@ export default function CreateWorkout() {
 			reps: reps,
 			sets: sets,
 			musclesWorked: muscles,
-			instructions: instructions,
+			notes: notes,
 			setsCompleted: 0,
 		};
 		setExercises([...exercises, newExercise]);
@@ -132,7 +133,7 @@ export default function CreateWorkout() {
 										id="repsInput"
 										type="number"
 										className="border p-2 w-full"
-										placeholder="Enter number of reps per set"
+										placeholder="Enter number of reps"
 										value={reps}
 										onChange={(e) => {
 											setReps(Number.parseInt(e.target.value));
@@ -159,16 +160,16 @@ export default function CreateWorkout() {
 								</Select>
 							</label>
 							<label className="text-lg">
-								Instructions
+								Notes
 								<input
-									id="instructionsInput"
+									id="notesInput"
 									type="text"
 									className="border p-2 w-full"
-									placeholder="Enter instructions"
+									placeholder="Enter notes"
 									autoComplete="off"
-									value={instructions}
+									value={notes}
 									onChange={(e) => {
-										setInstructions(e.target.value);
+										setNotes(e.target.value);
 									}}
 								/>
 							</label>
@@ -186,16 +187,22 @@ export default function CreateWorkout() {
 					Create
 				</button>
 			</form>
-			<div className="h-full w-1/3 flex flex-col gap-10 bg-snow-white-dark p-10 rounded-4xl shadow-2xl">
-				<span className="text-4xl w-full text-center font-semibold" hidden={exercises.length === 0}>
-					Exercises
-				</span>
-				<div className="flex flex-col overflow-y-auto gap-3 p-5">
-					{exercises?.map((exercise) => {
-						return <ExerciseAccordion exercise={exercise} />;
-					})}
-				</div>
-			</div>
+			{exercises.length > 0 ? (
+				<motion.div
+					className="h-full w-2/5 flex flex-col gap-10 bg-snow-white-dark p-10 rounded-2xl shadow-2xl shadow-primary"
+					initial={{ scale: 0, opacity: 0 }}
+					animate={{ scale: 1, opacity: 1 }}
+					transition={{ type: "spring", bounce: 0.2 }}
+				>
+					<span className="text-4xl w-full text-center font-semibold">Exercises</span>
+					<div className="flex flex-col overflow-y-auto gap-3 p-5">
+						{exercises?.map((exercise) => {
+							return <ExerciseAccordion key={exercise.name} exercise={exercise} />;
+						})}
+					</div>
+				</motion.div>
+			) : null}
+
 			<Modal open={modalOpen} disableAutoFocus className="flex items-center justify-center text-primary text-center">
 				<div className="bg-snow-white w-1/4 h-1/4 rounded-3xl p-10 text-4xl font-semibold flex flex-col">
 					Are you sure you want to exit without saving?
