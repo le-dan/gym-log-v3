@@ -148,11 +148,33 @@ export default function CreateWorkout() {
 									sx={styles.select}
 									className="w-full"
 									value={muscles}
+									displayEmpty
 									onChange={(e) => setMuscles(e.target.value as Muscle[])}
+									renderValue={(selected) => {
+										if (selected.length === 0) {
+											return <em>Select muscle(s) worked</em>;
+										}
+										return selected.join(", ");
+									}}
 								>
+									<MenuItem disabled value="">
+										<em>Select muscle(s) worked</em>
+									</MenuItem>
 									{Object.keys(Muscle).map((muscle) => {
 										return (
 											<MenuItem key={muscle} value={muscle}>
+												<input
+													type="checkbox"
+													checked={muscles.includes(muscle as Muscle)}
+													onChange={() => {
+														if (muscles.includes(muscle as Muscle)) {
+															setMuscles(muscles.filter((m) => m !== muscle));
+														} else {
+															setMuscles([...muscles, muscle as Muscle]);
+														}
+													}}
+													style={{ marginRight: "8px" }}
+												/>
 												{muscle}
 											</MenuItem>
 										);
