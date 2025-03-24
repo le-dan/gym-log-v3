@@ -59,7 +59,7 @@ export default function Workout() {
 			There are no custom workouts yet! Bummer! :(
 			<NavLink
 				to="create"
-				className="text-xl py-3 px-5 bg-primary text-snow-white hover-css rounded-xl hover:bg-accent hover:cursor-pointer animate-bounce ease-in-out"
+				className="text-xl py-3 px-5 bg-primary text-snow-white hover-css rounded-xl hover:bg-accent hover:cursor-pointer hover:scale-105 ease-in-out"
 			>
 				create workout
 			</NavLink>

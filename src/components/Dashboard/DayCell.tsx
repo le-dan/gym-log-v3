@@ -12,8 +12,7 @@ export default function DayCell({ dayFullname: day, dayNumber: dayNumber, isToda
 			}   duration-300 ease-in-out h-full shadow-black select-none box-border`}
 		>
 			<span className="text-2xl">{day.substring(0, 3).toUpperCase()}</span>
-			<span className="text-2xl">{dayNumber}</span>
-			<span className="font-thin">{day}</span>
+			<span className="text-2xl font-light">{dayNumber}</span>
 		</div>
 	);
 }

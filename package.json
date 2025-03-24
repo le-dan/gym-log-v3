@@ -24,6 +24,7 @@
 		"inspirational-quotes": "^2.0.1",
 		"local-db-storage": "^2.0.0",
 		"lucide-react": "^0.475.0",
+		"motion": "^12.5.0",
 		"react": "^19.0.0",
 		"react-confetti": "^6.3.0",
 		"react-dom": "^19.0.0",

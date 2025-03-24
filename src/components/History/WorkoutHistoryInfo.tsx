@@ -1,6 +1,5 @@
 import { useParams } from "react-router";
 import { WorkoutInterface } from "../../util/interfaces";
-// import db from "local-db-storage";
 import WorkoutComplete from "../Dashboard/WorkoutComplete";
 import { useEffect, useState } from "react";
 import { fetchData } from "../../util/util";

@@ -23,7 +23,10 @@ export default function Profile() {
 
 	const [editing, setEditing] = useState(false);
 
-	const grayInput = useMemo(() => (editing ? "opacity-100" : "opacity-70"), [editing]);
+	const grayInput = useMemo(
+		() => (editing ? "opacity-100" : "opacity-70"),
+		[editing]
+	);
 
 	// fetch user information on initial load
 	useEffect(() => {
@@ -45,7 +48,9 @@ export default function Profile() {
 		setEditing(!editing);
 	}
 
-	const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+	const handleChange = (
+		e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+	) => {
 		const { name, value } = e.target;
 		setInputUser((prevState) => ({
 			...prevState,
@@ -122,10 +127,16 @@ export default function Profile() {
 						onChange={(e) => handleChange(e)}
 						disabled={!editing}
 					>
-						<option value={ActivityLevel.NO_EXERCISE}>No Exercise</option>
-						<option value={ActivityLevel.SEDENTARY}>Sedentary</option>
+						<option value={ActivityLevel.NO_EXERCISE}>
+							No Exercise
+						</option>
+						<option value={ActivityLevel.SEDENTARY}>
+							Sedentary
+						</option>
 						<option value={ActivityLevel.MODERATE}>Moderate</option>
-						<option value={ActivityLevel.INTERMEDIATE}>Intermediate</option>
+						<option value={ActivityLevel.INTERMEDIATE}>
+							Intermediate
+						</option>
 					</select>
 				</label>
 				<label className="text-lg flex flex-col gap-2 w-[45%] h-fit">
