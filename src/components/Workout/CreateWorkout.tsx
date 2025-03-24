@@ -4,17 +4,21 @@ import db from "local-db-storage";
 import { useEffect, useMemo, useState } from "react";
 import Select from "@mui/material/Select";
 import { Muscle } from "../../util/interfaces";
-import {
-	AccordionDetails,
-	AccordionSummary,
-	MenuItem,
-	Modal,
-	Typography,
-} from "@mui/material";
-import { ChevronDown } from "lucide-react";
-import Accordion from "@mui/material/Accordion";
+import { MenuItem, Modal } from "@mui/material";
+import ExerciseAccordion from "./ExerciseAccordion";
 
 export default function CreateWorkout() {
+	const styles = {
+		select: {
+			".MuiOutlinedInput-notchedOutline": {
+				borderColor: "var(--color-primary)",
+				borderRadius: "0",
+			},
+			height: "46px",
+			color: "var(--color-primary)",
+		},
+	};
+
 	const [modalOpen, setModalOpen] = useState(false);
 
 	const [workoutName, setWorkoutName] = useState("");
@@ -27,10 +31,7 @@ export default function CreateWorkout() {
 	const [instructions, setInstructions] = useState("");
 
 	const [exercises, setExercises] = useState<Exercise[]>([]);
-	const isActive = useMemo(
-		() => (exercises.length > 0 || workoutName.length > 0) && !created,
-		[exercises, workoutName, created]
-	);
+	const isActive = useMemo(() => (exercises.length > 0 || workoutName.length > 0) && !created, [exercises, workoutName, created]);
 	const navigate = useNavigate();
 
 	const blocker = useBlocker(isActive);
@@ -43,9 +44,7 @@ export default function CreateWorkout() {
 
 	async function handleCreateButton() {
 		setCreated(true);
-		let workoutDB: WorkoutInterface[] | undefined = await db.getItem(
-			"WorkoutsDB"
-		);
+		let workoutDB: WorkoutInterface[] | undefined = await db.getItem("WorkoutsDB");
 		if (workoutDB === undefined) {
 			workoutDB = [];
 		}
@@ -74,26 +73,10 @@ export default function CreateWorkout() {
 		setExercises([...exercises, newExercise]);
 	}
 
-	const styles = {
-		select: {
-			".MuiOutlinedInput-notchedOutline": {
-				borderColor: "var(--color-primary)",
-				borderRadius: "0",
-			},
-			height: "46px",
-			color: "var(--color-primary)",
-		},
-		accordion: {
-			".MuiAccordion-heading": {},
-			backgroundColor: "var(--color-snow-white)",
-			color: "var(--color-primary)",
-		},
-	};
-
 	return (
-		<div className="h-full w-full flex text-primary border-primary items-center justify-between gap-20 p-10">
-			<form className="flex flex-col w-1/2 gap-10 shrink-0 overflow-y-auto items-center">
-				<h1 className="text-4xl">Create a New Workout</h1>
+		<div className="h-full w-full flex text-primary border-primary items-center justify-center gap-50 py-20">
+			<form className="flex flex-col h-full w-1/3 gap-10 shrink-0 overflow-y-auto items-center">
+				<h1 className="text-4xl font-semibold">Create a New Workout</h1>
 				<label className="text-xl w-full flex flex-col gap-4">
 					Workout Name
 					<input
@@ -128,9 +111,7 @@ export default function CreateWorkout() {
 									placeholder="Enter exercise name"
 									autoComplete="off"
 									value={exerciseName}
-									onChange={(e) =>
-										setExerciseName(e.target.value)
-									}
+									onChange={(e) => setExerciseName(e.target.value)}
 								/>
 							</label>
 							<div className="flex gap-4">
@@ -142,11 +123,7 @@ export default function CreateWorkout() {
 										className="border p-2 w-full"
 										placeholder="Enter number of sets"
 										value={sets}
-										onChange={(e) =>
-											setSets(
-												Number.parseInt(e.target.value)
-											)
-										}
+										onChange={(e) => setSets(Number.parseInt(e.target.value))}
 									/>
 								</label>
 								<label className="text-lg">
@@ -158,9 +135,7 @@ export default function CreateWorkout() {
 										placeholder="Enter number of reps per set"
 										value={reps}
 										onChange={(e) => {
-											setReps(
-												Number.parseInt(e.target.value)
-											);
+											setReps(Number.parseInt(e.target.value));
 										}}
 									/>
 								</label>
@@ -172,16 +147,11 @@ export default function CreateWorkout() {
 									sx={styles.select}
 									className="w-full"
 									value={muscles}
-									onChange={(e) =>
-										setMuscles(e.target.value as Muscle[])
-									}
+									onChange={(e) => setMuscles(e.target.value as Muscle[])}
 								>
 									{Object.keys(Muscle).map((muscle) => {
 										return (
-											<MenuItem
-												key={muscle}
-												value={muscle}
-											>
+											<MenuItem key={muscle} value={muscle}>
 												{muscle}
 											</MenuItem>
 										);
@@ -216,55 +186,18 @@ export default function CreateWorkout() {
 					Create
 				</button>
 			</form>
-			<div className="h-full w-1/2 flex flex-col gap-10">
-				<span className="text-4xl" hidden={exercises.length === 0}>
+			<div className="h-full w-1/3 flex flex-col gap-10 bg-snow-white-dark p-10 rounded-4xl shadow-2xl">
+				<span className="text-4xl w-full text-center font-semibold" hidden={exercises.length === 0}>
 					Exercises
 				</span>
-				<div className="flex flex-col gap-5">
+				<div className="flex flex-col overflow-y-auto gap-3 p-5">
 					{exercises?.map((exercise) => {
-						return (
-							<Accordion
-								key={exercise.name}
-								sx={styles.accordion}
-								className="px-3"
-							>
-								<AccordionSummary
-									expandIcon={<ChevronDown />}
-									className="font-bold text-primary text-2xl"
-								>
-									{exercise.name} - {exercise.sets}x
-									{exercise.reps}
-								</AccordionSummary>
-								<AccordionDetails className="text-text flex flex-col gap-4">
-									<Typography className="flex flex-col">
-										<span className="font-semibold">
-											Muscles Worked
-										</span>
-										<span className="text-sm">
-											{exercise.musclesWorked.join(", ")}
-										</span>
-									</Typography>
-									<Typography className="flex flex-col">
-										<span className="font-semibold">
-											Instructions
-										</span>
-										<span className="text-sm">
-											{exercise.instructions},
-										</span>
-									</Typography>
-									<Typography></Typography>
-								</AccordionDetails>
-							</Accordion>
-						);
+						return <ExerciseAccordion exercise={exercise} />;
 					})}
 				</div>
 			</div>
-			<Modal
-				open={modalOpen}
-				disableAutoFocus
-				className="flex items-center justify-center text-primary text-center"
-			>
-				<div className="bg-snow-white w-1/3 h-1/3 rounded-3xl p-10 text-4xl font-semibold flex flex-col">
+			<Modal open={modalOpen} disableAutoFocus className="flex items-center justify-center text-primary text-center">
+				<div className="bg-snow-white w-1/4 h-1/4 rounded-3xl p-10 text-4xl font-semibold flex flex-col">
 					Are you sure you want to exit without saving?
 					<div className="mt-auto w-full flex gap-10 justify-center text-xl font-semibold">
 						<button
