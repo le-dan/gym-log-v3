@@ -57,8 +57,7 @@ function App() {
 				/>
 				<Route path="help" element={<Help />} />
 			</Route>
-		),
-		{ basename: "/gym-log-v3/" }
+		)
 	);
 	return <RouterProvider router={router} />;
 }
