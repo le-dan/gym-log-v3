@@ -11,7 +11,7 @@ interface ExerciseListProps {
 export default function ExerciseList({ workout, exercises, chosenExercise, setChosenExercise }: ExerciseListProps) {
 	const renderExercises = () => {
 		const exerciseElements = exercises.map((exercise) => {
-			return <ExerciseCard key={exercise.name} workout={workout} exercise={exercise} chosenExercise={chosenExercise} setChosenExercise={setChosenExercise} />;
+			return <ExerciseCard key={exercise.name} workout={workout} exercise={exercise} exercises={exercises} chosenExercise={chosenExercise} setChosenExercise={setChosenExercise} />;
 		});
 		return exerciseElements;
 	};
