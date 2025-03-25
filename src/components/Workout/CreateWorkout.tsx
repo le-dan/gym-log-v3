@@ -42,7 +42,9 @@ export default function CreateWorkout() {
 			setModalOpen(true);
 		}
 	}, [blocker]);
-
+	useEffect(() => {
+		console.log(exercises);
+	}, [exercises]);
 	async function handleCreateButton() {
 		setCreated(true);
 		let workoutDB: WorkoutInterface[] | undefined = await db.getItem("WorkoutsDB");
@@ -219,7 +221,9 @@ export default function CreateWorkout() {
 					<span className="text-4xl w-full text-center font-semibold">Exercises</span>
 					<div className="flex flex-col overflow-y-auto gap-3 p-5">
 						{exercises?.map((exercise) => {
-							return <ExerciseAccordion key={exercise.name} exercise={exercise} />;
+							return (
+								<ExerciseAccordion key={exercise.name} exercise={exercise} exercisesList={exercises} setExercises={setExercises} />
+							);
 						})}
 					</div>
 				</motion.div>
