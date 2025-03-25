@@ -1,23 +1,23 @@
-import { NavLink, useParams } from "react-router";
-import { Exercise } from "../../../util/interfaces";
+import { NavLink } from "react-router";
+import { Exercise, WorkoutInterface } from "../../../util/interfaces";
 import React, { useMemo } from "react";
 
 interface ExerciseCardProps {
+	workout: WorkoutInterface;
 	exercise: Exercise;
 	chosenExercise: Exercise | undefined;
 	setChosenExercise: React.Dispatch<React.SetStateAction<Exercise | undefined>>;
 }
 
-export default function ExerciseCard({ exercise, chosenExercise, setChosenExercise }: ExerciseCardProps) {
+export default function ExerciseCard({ workout, exercise, chosenExercise, setChosenExercise }: ExerciseCardProps) {
 	const completed = useMemo(() => {
 		return exercise.setsCompleted === exercise.sets;
 	}, [exercise]);
 
-	const { workout } = useParams();
-
 	return (
 		<NavLink
-			to={`/dashboard/${workout}/${exercise.name.replace(" ", "").toLowerCase()}`}
+			to={`/dashboard/${workout.name}/${exercise.name.replace(" ", "").toLowerCase()}`}
+			state={{ workout: workout }}
 			key={exercise.name}
 			className={`text-xl font-bold ${completed ? "opacity-20 cursor-default" : "hover:bg-accent hover:text-snow-white"}  ${
 				chosenExercise && chosenExercise.name === exercise.name ? "bg-primary text-snow-white" : ""

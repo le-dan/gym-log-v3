@@ -3,26 +3,18 @@ import { useEffect, useState } from "react";
 import { aggregateMuscles, fetchData } from "../../util/util";
 import { NavLink } from "react-router";
 import NavBar from "./NavBar";
-interface WorkoutGridProps {
-	setChosenWorkout: React.Dispatch<React.SetStateAction<WorkoutInterface | undefined>>;
-}
 
-export default function WorkoutGrid({ setChosenWorkout }: WorkoutGridProps) {
-	function handleWorkoutClick(workout: WorkoutInterface) {
-		setChosenWorkout(workout);
-	}
-
+export default function WorkoutGrid() {
 	const renderWorkouts = (workouts: WorkoutInterface[]) => {
 		return workouts.map((workout, index) => {
 			const allMuscles = aggregateMuscles(workout);
 
 			return (
 				<NavLink
-					onClick={() => handleWorkoutClick(workout)}
 					className="bg-snow-white drop-shadow-lg rounded-lg h-35 w-[340px] justify-between items-center hover:scale-105 hover:shadow-md hover:shadow-accent ease-in-out duration-300 hover:cursor-pointer p-6 flex gap-5"
 					key={index}
-					to={"/dashboard/" + workout.name.replace(" ", "").toLowerCase()
-}
+					to={"/dashboard/" + workout.name.replace(" ", "").toLowerCase()}
+					state={{workout: workout, exercises: workout.exercises}}
 				>
 					<div className="flex-col flex shrink-0 max-w-19">
 						<span className="font-bold">{workout.name}</span>

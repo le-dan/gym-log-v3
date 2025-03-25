@@ -11,7 +11,8 @@ export default function History() {
 			setWorkoutHistory(res);
 		});
 	}, []);
-
+	console.log(workoutHistory);
+	
 	return (
 		<div className="h-full w-full p-10 shadow-2xl bg-snow-white rounded-lg gap-10 flex flex-col">
 			<span className="text-3xl font-bold text-primary">Workout History</span>
@@ -22,6 +23,7 @@ export default function History() {
 							key={workout.name}
 							className="bg-snow-white drop-shadow-lg rounded-lg flex flex-col justify-center items-center w-full h-full text-xl hover:shadow-sm hover-css hover:shadow-accent"
 							to={`${workout.completionDate?.toLowerCase()}`}
+							state={{ workout: workout }}
 						>
 							<span className="font-bold text-2xl">{workout.completionDate}</span>
 							<span>{workout.name}</span>

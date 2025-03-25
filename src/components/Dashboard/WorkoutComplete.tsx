@@ -6,13 +6,13 @@ import { NavLink, useLocation, useNavigate } from "react-router";
 import Confetti from "react-confetti";
 
 interface WorkoutCompleteProps {
-	workout: WorkoutInterface | undefined;
 	archive?: boolean;
 }
 
-export default function WorkoutComplete({ workout, archive }: WorkoutCompleteProps) {
+export default function WorkoutComplete({ archive }: WorkoutCompleteProps) {
 	const locationState = useLocation().state;
-	let navigate = useNavigate();
+	const workout: WorkoutInterface = locationState.workout;
+	const navigate = useNavigate();
 	async function handleSaveButton() {
 		if (workout) {
 			let workoutHistory: WorkoutInterface[] | undefined = await db.getItem("WorkoutHistory");
@@ -20,8 +20,6 @@ export default function WorkoutComplete({ workout, archive }: WorkoutCompletePro
 			if (workoutHistory === undefined) {
 				workoutHistory = [];
 			}
-			workout.elapsedMin = locationState.elapsedMin;
-			workout.elapsedSec = locationState.elapsedSec;
 			workout.completionDate = dayjs().format("MMM-DD-YYYY");
 			workoutHistory.push(workout);
 			await db.setItem("WorkoutHistory", workoutHistory);
@@ -75,8 +73,8 @@ export default function WorkoutComplete({ workout, archive }: WorkoutCompletePro
 					</div>
 					<div className="flex flex-col justify-center items-center gap-1 shadow-xl p-8 rounded-3xl text-3xl font-bold">
 						<span className="text-primary">Time Elapsed</span>
-						<span>Minutes: {String(workout?.elapsedMin).padStart(2, "0")}</span>
-						<span>Seconds: {String(workout?.elapsedSec).padStart(2, "0")}</span>
+						<span>Minutes: {String(workout.elapsedMin).padStart(2, "0")}</span>
+						<span>Seconds: {String(workout.elapsedSec).padStart(2, "0")}</span>
 					</div>
 				</div>
 				{!archive ? (
